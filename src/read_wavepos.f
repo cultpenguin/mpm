@@ -44,7 +44,8 @@ c---------------------------------------------------------------
 c     Local variables
 c---------------------------------------------------------------
       INTEGER nxhalf, nzhalf
-      REAL ntravel,ttt,ttx,ttz
+      REAL ttt,ttx,ttz
+      INTEGER ntravel
       REAL ittt(ntmax),ittx(ntmax),ittz(ntmax)
       REAL dzdt,dxdt
       INTEGER it1,it,it2,iit
