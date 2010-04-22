@@ -1,0 +1,103 @@
+<CHAPTER id="obtain">
+<TITLE>Installation</TITLE>
+<PARA>
+
+</PARA>
+
+<SECT1><TITLE>Get the source</TITLE>
+<PARA>
+The latest source code is available at <ulink url="http://mpm.sourceforge.net"><citetitle>http://mpm.sourceforge.net</citetitle></ulink> along with this document.
+</PARA>
+</SECT1>
+
+<SECT1><TITLE>System requirements</TITLE>
+<PARA>
+&mpm should compile on any system with an ANSI Fortran 77 compiler.
+We have tested two compilers :
+</PARA>
+<PARA>
+GNU fortran 77 (G77) is available for many platforms. &mpm has successfully been installed on Linux (Gnu) and Windows(cygwin-tools). Thanks to  <ulink url="http://sourceforge.net/"><citetitle>Sourceforge</citetitle></ulink>  MPM can be compiled for 
+Intel/x86 - Linux, 
+Intel/x86 - FreeBSD, 
+Compaq/Alpha - Linux, 
+Compaq/Alpha - Tru64, 
+Sun/Sparc - Linux, and
+Sun/Sparc - Solaris.
+</PARA>
+<PARA>
+Write to tmh@gfy.ku.dk if you want MPM compiled for any of these platforms.
+</PARA>
+<PARA>
+Compilers from  <ulink url="http://www.pgigroup.com/"><citetitle>PGI</citetitle></ulink> significantly speeds up the code compared to GNU's compiler. Up to 70% increase in speed has been obtained compared to G77 on a single CPU Linux machine. The auto parallelization gave an increase of 57% on a DUAL Pentium Linux machine using both CPUS.
+</PARA>
+<PARA>
+Several m-files are distributed with the source code. They have been testes using <ulink url="http://www.mathworks.com/"><citetitle>Matlab 5</citetitle></ulink>
+</PARA>
+</SECT1>
+
+
+<SECT1><TITLE>Install</TITLE>
+<PARA>
+As of version 1.1 you can install both using RPM files and from basic tar.gz files.
+</PARA>
+
+<SECT2><TITLE>RPM file</TITLE>
+<PARA>
+To install the binary verions do 
+<SCREEN>
+> su
+> rpm -Uvh mpm-&mpm-version;-1.i386.rpm
+</SCREEN>
+This will install mpm in /usr/bin/mpm, and the examples and m-files will be in /usr/doc/mpm-&mpm-version;.
+</PARA>
+
+</SECT2>
+
+<SECT2><TITLE>Install from source files</TITLE>
+<PARA>
+Assuming that GNU Make is installed on your system :
+Unpack the sourcefiles using one of the two following commands :
+<SCREEN>
+> gunzip -c mpm.tar.gz | tar tvf '-'
+> tar xvfz mpm.tar.gz
+</SCREEN>
+This creates a directory called <FILENAME>mpm_&mpm-version;</FILENAME>.
+</PARA>
+<PARA> 
+The Fortran source code is found in <FILENAME>mpm_&mpm-version;/src</>, examples in <FILENAME>mpm_&mpm-version;/examples</> and help m-files and scripts in <FILENAME>mpm_&mpm-version;/misc</>. Documentation is located in <FILENAME>mpm_&mpm-version;/doc</>.
+</PARA>
+<PARA>
+Go to the directory containing the sourcecode and compile the source :
+<SCREEN>
+> cd mpm_&mpm-version;/src
+> make
+</SCREEN>
+
+You may have to edit the <FILENAME>Makefile</> before compiling the code, to select compiler and compiler options. 
+</PARA>
+<PARA>
+If GNU Make is not installted on your system, you can try to run the scripts <FILENAME>CompileMPM</> :
+<SCREEN>
+> cd mpm_&mpm-version;/src
+> ./CompileMPM
+</SCREEN>
+</PARA>
+<PARA>
+An executable called <FILENAME>mpm</>, should now be present in <FILENAME>mpm_&mpm-version;/mpm</>
+
+
+</PARA>
+</SECT2>
+
+<SECT2><TITLE>Set path to Matlab files</TITLE>
+<PARA>
+If Matlab will be used to run the examples, add the path to the matlab files to Matlab using the <VARNAME>pathtool</> from Matlab.
+</PARA>
+<PARA>
+Using the RPM file the path will be <FILENAME>/usr/doc/mpm-&mpm-version/misc</>.
+</PARA>
+</SECT2>
+</SECT1>
+
+
+</CHAPTER>

@@ -1,0 +1,4 @@
+mpmbench.m  : Creates and save model and par file for small benchmark
+mpmbench2.m : Creates and save model and par file for larger benchmark
+mpmbench.sh : As benchmpm.m, but model and par have allready been created : bench_data/
+mpmbench2.sh : As benchmpm2.m, but model and par have allready been created : bench2_data/

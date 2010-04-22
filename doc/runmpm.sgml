@@ -1,0 +1,550 @@
+<CHAPTER id="runmpm">
+<TITLE>Running MPM</TITLE>
+<PARA>
+
+</PARA>
+
+<SECT1><TITLE>Input Files</TITLE>
+<PARA>
+MPM requires that several files are present at execution time. At least 5 binary model grids and one ascii file must be present.
+</PARA>
+
+<SECT2><TITLE>l.mod, mu.mod, l2mu.mod, denu.mod, denw.mod [REQUIRED]</TITLE>
+<PARA>
+The staggered grid implementation can be defined in five grids, or five binary model files  :
+</PARA>
+<PARA>
+<FILENAME>l.mod1</>, <FILENAME>mu.mod1</>, <FILENAME>l2mu.mod1</>, <FILENAME>denu.mod1</>, <FILENAME>denw.mod1</>, 
+corresponding to <VARNAME>lambda</>, <VARNAME>mu</>, <VARNAME>lambda + 2 mu</>, <VARNAME>rhox</> and <VARNAME>rhoz</>, \cite{Levander}.
+</PARA>
+<PARA>
+Each file must be of size <VARNAME>bignx,bignz</> and must be written in using direct access (if using 'fortran').
+</PARA>
+<PARA>
+A model file must be written column by column : 
+<SCREEN>
+for ix=1:nx
+for iz=1:nz
+  fwrite(fid,rhox(iy,ix),'float32');
+end
+end
+</SCREEN>
+or equivalently :
+<SCREEN>
+fwrite(fid,rhox,'float32');
+</SCREEN>
+
+</PARA>
+<PARA>
+<FILENAME>save_mpm.m</> and <FILENAME>save_mpm_el.m</> saves model files created in Matlab in the proper format.
+</PARA>
+</SECT2>
+
+
+<SECT2><TITLE>mpm.par [REQUIRED]</TITLE>
+<PARA>
+This ascii file contains all parameters necessary to do FD modeling. Below is an example (see the examples for heavily commented examples). Variable names used in the source-code is listed in boldface : 
+<SCREEN>
+# MODEL ON DISK (2 lines)
+     6252,1667  bignx_disk,bignz_disk [samples]
+     240        dx [meter]
+     1          autopad
+# MOVING BOX (3 lines)
+     100000, 100000, 50000 wbox,hbox,bufferwidth [meter]
+     0          movflag 
+     48240 1200 0 0  boxx0 boxz0 boxvpx boxvpz [meter,meter,meter/s,meter/s]
+# TIME SAMPLING (2 lines)
+     5          tmax [seconds]
+     0.016      dt [seconds]
+# SOURCE (4 lines)
+     3 0        sourcetype[0;1;2;3],rotation[0;1]
+     201 5      xs,zs [meters]
+     4          maxf [Hz]
+     50         pulsedelay [samples]
+# RECEIVERS
+     1          geotype[1;2;3] 
+     1200          geodepth [meter]
+# BOUNDARIES (4 lines)
+     1          freeupper
+     2          absmode
+     0.92, 20, 2, 2  edgefactor, dampingwidth,dampingexponent,dampingtype
+     0.8, 6000, 4, 0.1 edegfactorf,vdamp,maxfdamp,expbas
+# AUTOSAVE (2 lines)
+     0          restoreautosave
+     500        dautosave
+# IO (6 lines)
+     1 1 1 0    usnapflag,wsnapflag,divsnapflag,rotsnapflag
+     2          snapsize
+     25, 25     beginsnap,dsnap
+     2          xyskip 
+     1          traceskip
+     5          tskip
+     1          verbose
+</SCREEN>     
+
+
+
+This file MUST contain at least the lines presented above. The lines starting with # are for information only, and separates the parameters into sections :
+</PARA>
+
+<SECT3><TITLE>MODEL ON DISK</TITLE>
+<PARA></PARA>
+<formalpara><title>bignx_disk,bignz_disk [samples]</title>
+<para>
+<VARNAME>bignx_disk,bignz_disk</> is the size of the model in samples, of the model to be used for modeling, i.e. the model on the disk.
+</para>
+</formalpara>
+
+<FORMALPARA><TITLE>dx [meters]</TITLE>
+<PARA>
+<VARNAME>dx</> is the spatial sampling interval in meters 
+</PARA>
+</FORMALPARA>
+
+<FORMALPARA><TITLE>autopad</TITLE>
+<PARA>
+<VARNAME>autopad</VARNAME> determines whether to pad the disk-model with the size of the absorbin borders.
+</PARA>
+</FORMALPARA>
+<PARA>
+if this is set to '1', then a padded model will be written to disk as <FILENAME>l2mu_pad.mod</>,<FILENAME>l_pad.mod</>, and so forth. The model will be padded <VARNAME>dampingwidth</> samples at all borders. Thus <VARNAME>bignx</> will be changed to <VARNAME>bignx+2*dampingwidth</>, and <VARNAME>bignz</> will be changed to <VARNAME>bignz+2*dampingwidth</>.
+</PARA>
+<PARA>
+If a <VARNAME>freeupper=1</> the top of the model is padded an additional 3 samples, the depth of the frea surface.
+</PARA>
+<PARA>
+<VARNAME>autopad=1</VARNAME> will cause the positions of source and receivers to be shifted, internally in &mpm;. Thus a position given in <FILENAME>mpm.par</> will relate to the position in the unpadded grid.
+</PARA>
+
+<PARA>
+<VARNAME>bignx,bignz</> is set to <VARNAME>bignx_disk,bignz_disk</>. 
+Thus if an absorbing boundary is used, then the region of absorption is within the model area. If a free surface is used, the top three samples of the loaded model will be used for modeling the free surface.
+ </PARA>
+</SECT3>
+
+
+
+
+<SECT3><TITLE>MOVING BOX</TITLE>
+
+<FORMALPARA><TITLE>wbox,hbox,bufferwidth [meters]</TITLE>
+<PARA>
+<VARNAME>wbox,hbox]</VARNAME> is the size of the moving box in meters.
+</PARA>
+</FORMALPARA>
+<PARA>
+<VARNAME>bufferwidth</VARNAME> is the width of the bufferzone in meters. If this is set to 0, the the box will not be moving.
+</PARA>
+
+<FORMALPARA><TITLE>movflag</TITLE>
+<PARA>
+<VARNAME>movflag</VARNAME>
+movflag controls how the box is moving. [0], the positions of the center of the box is loaded from the file \textitwavepos.asc. [1] the next line defines the movement of the box :\newline 
+</PARA>
+</FORMALPARA>
+
+<FORMALPARA><TITLE>boxx0,boxz0,boxvpx,boxvpz</TITLE>
+<PARA>
+</PARA>
+</FORMALPARA>
+<FORMALPARA><TITLE></TITLE>
+<PARA>
+boxx0,boxz0 is the startposition of the center of the box in meters.
+</PARA>
+</FORMALPARA>
+<PARA>
+boxvpx,boxvpz is the velocity of the moving box, \textit[m/s], in the x- and z-direction.
+</PARA>
+
+
+</SECT3>
+
+
+<SECT3><TITLE>TIME SAMPLING</TITLE>
+<FORMALPARA><TITLE>tmax [seconds]</TITLE>
+<PARA>
+<VARNAME>tmax</> is time to model in seconds.
+</PARA>
+</FORMALPARA>
+<FORMALPARA><TITLE>dt [seconds]</TITLE>
+<PARA>
+<VARNAME>dt</> is the time sample interval in seconds. 
+</PARA>
+</FORMALPARA>
+</SECT3>
+
+
+<SECT3><TITLE>SOURCE</TITLE>
+
+<FORMALPARA><TITLE>sourcetype</TITLE>
+<PARA>
+<VARNAME>sourcetype</> defines the type of source wavelet: [1] Ricker [2] cosine, [3] Gaussian.
+If  chosen to [0] the source pulse is defined in the ascii file <FILENAME>source.asc</>.
+</PARA>
+</FORMALPARA>
+
+<FORMALPARA><TITLE>rotation</TITLE>
+<PARA>
+Determines whether the source is inserted as a [1] rotational S-wave or [0] a compressional P wave.
+</PARA>
+</FORMALPARA>
+
+
+<FORMALPARA><TITLE>xs,zs [meters]</TITLE>
+<PARA>
+<VARNAME>xs,zs</>  defines the center of the source in meters.
+</PARA>
+</FORMALPARA>
+<FORMALPARA><TITLE>maxf</TITLE>
+<PARA>
+<VARNAME>maxf</> sets the dominant frequency of the sourcepulse.
+</PARA>
+</FORMALPARA>
+<FORMALPARA><TITLE>pulsedelay</TITLE>
+<PARA>
+<VARNAME>pulsedelay</> sets delay in time samples for the peak of the wavelet. [0] calculates the delay from the dominant frequency and the time sample interval.
+</PARA>
+</FORMALPARA>
+</SECT3>
+
+<SECT3><TITLE>RECEIVERS</TITLE>
+<PARA>
+RECEIVERS
+geotype : Determines the type of geophone [1]=velocity , [2]=(div/rot), [3]=('both'). \newline
+geopdepth is the depth in samples at which the geophones are positioned.[0] assumes the receivers are defined in the file <FILENAME>geopos.asc</>. The positions of geophones in <FILENAME>geopos.asc</> are in meters.
+</PARA>
+<SECT4>
+<TITLE>geopos.asc</TITLE>
+<PARA>
+<FILENAME>geopos.asc</FILENAME> contain a list of positions (x,z) in meters for geophones, one per line. The file must end with a line starting with the number '999999' :
+<SCREEN>
+ 11.00  10.00   FIRST GEOPHONE
+ 10.00   9.00   SECOND GEOPHONE
+  9.00  10.00   THIRD GEOPHONE
+ 10.00  11.00   FOURTH G.....
+...
+999999
+</SCREEN>
+
+</PARA>
+</SECT4>
+
+</SECT3>
+
+<SECT3><TITLE>BOUNDARIES</TITLE>
+<PARA>
+BOUNDARIES
+freeupper [1] for a free surface, [0] otherwise\newline
+absmode [0] Clayton and Enqvist, \citeClayeng. [1] Cerjan type exponential damping \shortciteCerjan). [2] Wide angle Fresnel Zone based, [3] Deep and narrow Fresnel Zone based. Type [2] and [3] are experimental absorbing boundaries, not currently suitable for production modeling. 
+
+The next line is only used if \varabsmode was chosen to [1].
+The edgefactor sets the damping value at the border. dampingwidth sets the with of the damping zone in samples. At \vardampingwidth samples from the border the damping will be 1, i.e. no damping. dampingexponent is the exponent in the exponential formula. dampingtype determines wether only the stress field, [1], ot both the stress and velocity fields [2] are damped.
+
+The last line in the boundary section is only used of Fresnel zone base boundaries have been chosen (\varabsmode=[2] or [3])
+edgefactorf sets the damping value at the border. vdamp the the velocity, and maxfdamp sets the maximum frequency to be used to determine the width of the Fresnel zone. expbase sets the exponent of the damping expression.
+</PARA>
+</SECT3>
+
+<SECT3><TITLE>AUTOSAVE</TITLE>
+<FORMALPARA><TITLE>restoreautosave</TITLE>
+<PARA>
+<VARNAME>restoreautosave</> [1] Restart FD-modeling  from auto saved data, [0] Start from beginning of modeling.
+</PARA>
+</FORMALPARA>
+<FORMALPARA><TITLE>dautosave</TITLE>
+<PARA>
+<VARNAME>dautosave</> set the interval in timesamples at which the whole state of the modelling is saved. 
+</PARA>
+</FORMALPARA>
+</SECT3>
+
+
+
+<SECT3><TITLE>IO</TITLE>
+<FORMALPARA><TITLE>usnapflag,wsnapflag,divsnapflag,rotsnapflag</TITLE>
+<PARA>
+ determines whether snapshots of velocities ($u_t$, $w_t$) or  'Divergence' and 'Rotational' fields are written to disk : [1] snapshots, [0] no snapshots.
+</PARA>
+</FORMALPARA>
+
+<FORMALPARA><TITLE>snapsize</TITLE>
+<PARA>
+<varname>snapsize</> determines the size of the snapshot region : [1] The small moving grid (nx,nz). [2] The buffer grid (nx+buffer,nz+buffer). [3] The whole model (bignx,bignz). Option [2] is under consideration at the moment and not ment to be used.\newline
+The snapfiles can be inspected in Seismic Unix by \varxmovie < ut.snap n1=nz n2=nx regarding the values of xyskip and snapsize.
+</PARA>
+</FORMALPARA>
+<PARA>
+CURRENTLY ONLY OPTION [3] IS WORKING FOR ALL TYPES.
+</PARA>
+
+
+<FORMALPARA><TITLE>beginsnap,dsnap</TITLE>
+<PARA>
+beginsnap is the time sample from which snapshots are printed for every dsnap timesteps.\newline
+</PARA>
+</FORMALPARA>
+
+<FORMALPARA><TITLE>xyskip</TITLE>
+<PARA>
+xyskip skips every \varxyskip sample for snapshots.\newline
+</PARA>
+</FORMALPARA>
+
+<FORMALPARA><TITLE>traceskip</TITLE>
+<PARA>
+<varname>traceskip</> skips every <varname>traceskip</> geophone.
+</PARA>
+</FORMALPARA>
+
+<FORMALPARA><TITLE>tskip</TITLE>
+<PARA>
+<varname>tskip</> skips every <varname>tskip</> time sample for geophones.
+</PARA>
+</FORMALPARA>
+
+<FORMALPARA><TITLE>verbose</TITLE>
+<PARA>
+<VARNAME>verbose</> determines the amount of information printed to the terminal window : [-1] None, [0] Very brief, [1] Normal, [5] Huge amount of information. 
+</PARA>
+</FORMALPARA>
+
+
+</SECT3>
+
+</SECT2>
+
+
+<!-- WAVEPOS.ASC-->
+<SECT2><TITLE>wavepos.asc</TITLE>
+<PARA>
+If movflag was set to [0] in \verb1mpm.par1, then \verb1wavepos.asc1 must be defined. This ascii file \textitwavepos.asc gives the position of the center of the box at a specific time step. below is an example :
+<SCREEN>
+    0      1000   1000
+   10     70000  70000
+   20      1000   1000
+</SCREEN>
+Each line determines the center (in meters) of the moving box, defined by column 2 and 3 (x and z) at a specific time, defined by column 1 (in seconds)
+</PARA>
+</SECT2>
+
+<SECT2><TITLE>receiver.asc</TITLE>
+<PARA>
+</PARA>
+</SECT2>
+
+<SECT2><TITLE>source.asc</TITLE>
+<PARA>
+</PARA>
+</SECT2>
+
+</SECT1>
+
+<!-- OUTPUT FROM MPM -->
+<SECT1><TITLE>Output from &mpm;</TITLE>
+<PARA>
+\textitwaveposout.asc contains the position of the top left corner of the moving box in samples for every timestep.\newline
+\textitsourceout.asc contains the source wavelet at all timesteps.\newline
+</PARA>
+<PARA>
+Files with the extension \file.autosave are auto saved snapshots of the stress- and velocity-fields and the time step at which auto save occurred
+</PARA>
+
+<SECT2><TITLE>Text Information</TITLE>
+<PARA>
+Several files with <FILENAME>.asc</> extension, contains information about the modeling progression.
+</PARA>
+
+<SECT3><TITLE>waveposout.asc</>
+<PARA>
+This file contains the position of the moving box at each times step, [time, x, y].
+<SCREEN>
+  0.00706999982  10535.  7035.
+  0.0141399996  10535.  7035.
+  0.0212099999  10570.  7035.
+  0.0282799993  10570.  7035.
+  0.0353499986  10605.  7035.
+  0.0424199998  10640.  7035.
+.
+.
+.
+</SCREEN>
+</PARA>
+</SECT3>
+
+<SECT3><TITLE>modelpadding.asc</>
+<PARA>
+This file conatins information on the amount of modelpadding generated by &mpm;.
+</PARA>
+<PARA>
+[padleft,padtop,padright,padbottom] :
+<SCREEN> 
+50 53 50 50
+</SCREEN> 
+</PARA>
+</SECT3>
+
+<SECT3><TITLE>geophoneposout.asc</>
+<PARA>
+This file contains the position of each geophone in the grid :
+<SCREEN>
+ 1  51.  54.
+ 2  52.  54.
+ 3  53.  54.
+ 4  54.  54.
+ 5  55.  54.
+ 6  56.  54.
+ 7  57.  54.
+ 8  58.  54.
+.
+.
+.
+</SCREEN>
+</PARA>
+</SECT3>
+
+<SECT3><TITLE>sourceout.asc</>
+<PARA>
+This file conatins the inserted sourcem for all modeled timesteps 
+<SCREEN>
+  1.55307494E-12
+  2.23443638E-12
+  3.20685817E-12
+  4.59121586E-12
+  6.55710078E-12
+  9.34183546E-12
+  1.32766576E-11
+  1.88226813E-11
+  2.66201436E-11
+  3.75556704E-11
+  5.28538741E-11
+.
+.
+
+</SCREEN>
+</PARA>
+</SECT3>
+
+
+</SECT2>
+
+<SECT2><TITLE>Seismograms</TITLE>
+<PARA>
+\filegeou.f77,\filegeou.f77,\filegeodiv.f77,\filegeorot.f77 contains the seismograms if specified in the parameter file. The files can be read using \varf77strip.m. \newline The same seismograms as in the *.f77 files are  kept in the *.bin files. The *.bin files are ment to be used directly in Seismic Unix by e.g.  \varxwigb < geou.bin n1=nt
+</PARA>
+</SECT2>
+
+<SECT2><TITLE>Snapshots</TITLE>
+<PARA>
+\fileut.snap and \filewt.snap contains velocity snapshots, and \filediv.snap and \filerot.snap contains the snapshots for the divergent (P-wave) and rotational (S-wave) fields.\newline
+</PARA>
+<PARA>
+Can be read using \varf77strip.m. and can be plotted using \filempmmov.m
+</PARA>
+</SECT2>
+
+<SECT2><TITLE>Snapshots</TITLE>
+<PARA>
+\fileut.snap and \filewt.snap contains velocity snapshots, and \filediv.snap and \filerot.snap contains the snapshots for the divergent (P-wave) and rotational (S-wave) fields.\newline
+</PARA>
+<PARA>
+Can be read using \varf77strip.m. and can be plotted using \filempmmov.m
+</PARA>
+</SECT2>
+
+</SECT1> <!-- END OUTPUT FROM MPM -->
+
+
+<SECT1><TITLE>Matlab m-files</TITLE>
+<PARA>
+Several m-files are included to help set up the model and process the data.
+All M-files work equally well with \hrefhttp://www.mathworks.comMatlab 5 or using the freely available Octave.
+
+f77strip.m 
+Reads the Fortran style binary file into memory
+
+f77unstrip.m 
+Saves a matrix into a Fortran style binary float-file.
+
+save\_mpm.m
+Creates the proper elastic grids from Vp, and Vp/Vs and Vp/Density ratios.
+
+save\_mpm\_e,.m
+Creates the proper elastic grids from Vp, Vs and Density
+
+vp2den.m
+Computes velocity profile from density profile. From Christensen and Mooney, JGR, 1995,VOL 100, No. B7   
+
+den2vp.m
+Computes density profile from velocity profile. From Christensen and Mooney, JGR, 1995,VOL 100, No. B7   
+
+
+mpmmov.m [Matlab 5 only] 
+Shows a movie of binary snapshot files.
+
+vonk2d
+Creates 2D Random fields with both a Gaussian and multimodal PDF, using Gaussian, Exponential and von Karman distributions.
+</PARA>
+
+<SECT2><TITLE>mpmmov.m</TITLE>
+<PARA>
+Shows a movie of moviefile.
+</PARA>
+
+<PARA>
+<SCREEN>
+>> mpmmov('div.snap',1e-4)
+</SCREEN>
+</PARA>
+
+<PARA>
+Show a movie starting at snapshot 10, ending at snapshot 14, in steps of 2 snapshots :
+<SCREEN>
+>> [movnx,movnz]=get_movie_size;
+>> mstart=10; mend=14; mstep=2;
+>> mpmmov('div.snap',movnx,movnz,mstart,mend,mstep,1e-4)
+</SCREEN>
+You can choose to return a matrix suitable for movie creation as :
+<SCREEN>
+>> M=mpmmov('div.snap',movnx,movnz,mstart,mend,mstep,1e-4)
+>> movie(M,4)
+</SCREEN>
+Fianlly you can save the movie <FILENAME>M</> as an AVI file using :
+<SCREEN>
+>> movie2avi(M,'movie.avi')
+</SCREEN>
+
+
+</PARA>
+
+
+</SECT2>
+
+<SECT2><TITLE>read_mpm_par.m</TITLE>
+<PARA>
+Gets information from <FILENAME>mpm.par</>.
+</PARA>
+<PARA>
+<SCREEN>
+>> [wbox,bignx]=read_mpm_par('wbox','bignx')
+</SCREEN>
+</PARA>
+</SECT2>
+
+<SECT2><TITLE>write_mpm_par.m</TITLE>
+<PARA>
+Write the file <FILENAME>mpm.par</>. The first eight parameters must be present.
+</PARA>
+<PARA>
+<SCREEN>
+>> write_mpm_par(bignx,bignz,dx,xs,zs,tmax,Vmax,Vmin,'wbox',wbox,'hbox',hbox)
+</SCREEN>
+</PARA>
+</SECT2>
+
+
+
+
+</SECT1>
+
+
+</CHAPTER>

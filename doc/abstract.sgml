@@ -1,0 +1,43 @@
+<preface id="abstract">
+<title>About &mpm</title>
+<PARA>
+Main Phase Modeling, &mpm, is an efficient way to model the waveform of individual seismic phases using finite differences. Often large volumes of data are modeled even though only one particular phase is investigated, e.g. in wide angle modeling. Using the ray path obtained from e.g ray tracing, a specific phase or part of the dataset can be followed in the grid, using a moving box. This produces high quality wave field modelings, with significantly lower demands on computer CPU and memory. 
+</PARA>
+<PARA>
+This implementation is using a 4th order space 2nd order time 2D finite difference solution of the elastic wave equation (Levander, 1988)
+</PARA>
+
+<FIGURE id="fOutLine">
+   <TITLE>Outline of MPM</TITLE>
+   <mediaobject>
+   <imageobject>
+   <imagedata align="&align" scale="&scale" fileref="mpm_outline.&suffix" format="&magic">
+   </imageobject>
+   </mediaobject>
+</FIGURE>
+
+<PARA>
+&mpm; enables modeling of certain types of wav-propagation not available using convention finite difference based modeling tools :
+</PARA>
+
+<FORMALPARA><TITLE>Modeling of selected phases.</TITLE>
+<PARA>
+By following one specific wavefront, it can be separated from other waves at the geophone locations. In this way &mpm; can be used as an analytical tool.
+</PARA>
+</FORMALPARA>
+
+<FORMALPARA><TITLE>Efficient high frequency modeling of wide angle data.</TITLE>
+<PARA>
+When modeling seismic wide angle data, one most often does only regard a time interval of recorded signals, by looking at the data in reduced time. This means that most if the original data is removed.
+</PARA>
+</FORMALPARA>
+<PARA>
+For such a case &mpm; will greatly increase both the modeling time and the memory requirements. Numerical tests show that the quality of the modeled data will match of conventionally modeled data by a factor of less 1e-5.
+</PARA>
+<PARA>
+Another benefit of &mpm; could be to enable modeling using higher frequencies, than possible using conventional methods.
+</PARA>
+
+
+
+</PREFACE>

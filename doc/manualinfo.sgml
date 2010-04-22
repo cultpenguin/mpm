@@ -1,0 +1,88 @@
+<bookinfo>
+
+    <title>Main Phase Modeling</title>
+    <subtitle>Eficient 2D Finite Difference Modeling</subtitle>
+      
+    <edition>Version &mpm-version;</edition>
+    <pubdate>&mpm-date</pubdate>
+
+<!--
+   <mediaobject>
+   <imageobject>
+   <imagedata align="&align" scale="&scalemost;" fileref="&imdir/LofipCover.&suffix" format="&magic">
+   </imageobject>
+   </mediaobject>
+-->
+  
+    <AUTHORGROUP>
+
+    <AUTHOR>
+      <FIRSTNAME>Thomas Mejer</FIRSTNAME>
+      <SURNAME>Hansen</SURNAME>
+    </AUTHOR>    
+
+    <AUTHOR>
+      <FIRSTNAME>Bo Holm</FIRSTNAME>
+      <SURNAME>Jacobsen</SURNAME>
+    </AUTHOR>
+
+    <collab><collabname>Hans Christian Schiøtt</collabname></collab>
+    <collab><collabname>Uni Petersen</collabname></collab>
+
+    </AUTHORGROUP>
+
+
+  
+    <LEGALNOTICE>
+    <PARA>
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+    </PARA>
+    </LEGALNOTICE>
+
+   <COPYRIGHT>
+     <YEAR>2000</YEAR><YEAR>2001</YEAR><YEAR>2002</YEAR>
+     <HOLDER>Thomas Mejer Hansen, Niels Bohr Institute for Astronomy, Physics and Geophysics (NBIfAFG), University of Copenhagen, Denmark. </HOLDER>
+     <HOLDER>Bo Holm Jacobsen, University of Aarhus, Denmark. </HOLDER>
+   </COPYRIGHT>
+
+
+
+   <ABSTRACT>
+   <PARA>
+An F77 program for efficient finite difference waveform modeling of complexity in selected phases.
+</PARA>
+   </ABSTRACT>
+
+<revhistory>
+
+<revision>
+  <revnumber>1.00</revnumber>
+  <date>11 Sep 2001</date>
+  <authorinitials>TMH</authorinitials>
+  <revremark>Initial release of MPM at Sourceforge</revremark>
+</revision>
+
+<revision>
+  <revnumber>1.10</revnumber>
+  <date>xx xxx 2002</date>
+  <authorinitials>TMH,UP</authorinitials>
+  <RevRemark>First release after extensive code cleanup.
+ </RevRemark>
+</revision>
+
+</revhistory>
+
+
+</bookinfo>
