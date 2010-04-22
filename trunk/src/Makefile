@@ -4,7 +4,7 @@
 # type 'make' and you should get a binary called 'mpm'
 #
 #
-# /TMH APR 2000
+# /TMH APR 2010
 #
 ########################################################################
 #
@@ -20,7 +20,7 @@
 #
 
 # GNU FORTRAN
-FC = g77
+FC = gfortran
 FFLAGS = -O3
 #FFLAGS = -Wall
 #FFLAGS = -g
