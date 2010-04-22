@@ -1,0 +1,12 @@
+TO INSTALL :
+--
+> cd src
+> make 
+--
+
+or if that fails 
+--
+> cd src
+> chmod +x CompileMPM
+> ./CompileMPM
+--

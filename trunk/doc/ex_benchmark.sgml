@@ -1,0 +1,33 @@
+<SECT1><TITLE>Benchmark</TITLE>
+<PARA>
+</PARA>
+
+<SECT2><TITLE>Bench I</TITLE>
+<PARA>
+A short benchmark.
+<SCREEN>
+COMPUTER         COMPILER        TIME(s)
+----------------------------------------
+Linux 1Ghz         pgf77           28  
+Linux 1Ghz        g77 -Wall        44  
+Linux 1Ghz         g77 -O3         42  
+Linux 800Mhz    g77 -O3 -Wall      78  
+Linux 2.4, 800Mhz ifc -O3 -W0      39  
+Linux 2.4, 800Mhz  ifc -W0         47  
+----------------------------------------
+</SCREEN>
+</PARA>
+</SECT2>
+
+<SECT2><TITLE>Bench II</TITLE>
+<PARA>
+A longer benchmark, with a moving box.
+<SCREEN>
+COMPUTER         COMPILER        TIME(s)
+----------------------------------------
+----------------------------------------
+</SCREEN>
+</PARA>
+</SECT2>
+
+</SECT1>

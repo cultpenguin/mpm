@@ -1,0 +1,32 @@
+<SECT1><TITLE>Wide Angle Wavefield Modeling</TITLE>
+<PARA>
+</PARA>
+
+<FIGURE id="WideAngleModel">
+   <TITLE>Model for wide angle modeling example</TITLE>
+   <mediaobject>
+   <imageobject>
+   <imagedata align="&align" fileref="model_wide.&suffix" format="&magic">
+   </imageobject>
+   </mediaobject>
+</FIGURE>
+
+<SECT2><TITLE>Steady Box</TITLE>
+<PARA>
+</PARA>
+</SECT2>
+
+<SECT2><TITLE>Moving Box</TITLE>
+<PARA>
+</PARA>
+</SECT2>
+
+<SECT2><TITLE>Comparison</TITLE>
+<PARA>
+</PARA>
+
+</SECT2>
+
+
+</SECT1>
+

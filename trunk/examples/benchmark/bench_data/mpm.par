@@ -1,0 +1,35 @@
+#MODEL ON DISK (2 lines)
+  500   500 bignx,bignz
+  0.10  dx
+    1  autopad [0] no padding, [1] padding
+#MOVING BOX (3 lines)
+4.980000e+01 4.980000e+01 2.000000e-01 wbox,hbox,bufferwidth
+    1 movflag
+    1     1   0.00   0.00  boxx0,boxz0,boxvpx,boxvpz
+#TIME SAMPLING (2 lines)
+   30  tmax [s]
+  0.04040000  dt [s]
+#SOURCE (4 lines)
+    3 0  sourcetype,rotation
+   10 5.000000e-01     xs,zs [meter]
+  0.46  f_main
+  150  pulsedelay
+#RECEIVERS (2 lines)
+    1  geotype
+    1  geodepth [meter]
+#BOUNDARIES (4 lines)
+    1  freeupper
+    1  absmode
+  0.92    50     2     2 edgefactor, dampingwidth,dampingexponent,dampingtype
+  0.80  6000     4   1.00 edgefactorf, vdamp, maxfdamp, expbase
+#AUTOSAVE (2 lines)
+    0  restoreautosave
+ 1000  dautosave
+#IO (6 lines)
+    1     1     1     1     1 usnapflag,wsnapflag,prsnapflag,divsnapflag,rotsnapflag
+    3  snapsize
+   30    30 beginsnap,dsnap
+    1  xyskip xyskip
+    1  traceskip (traceskip)
+    1  tskip (timeskip)
+    0  verbose

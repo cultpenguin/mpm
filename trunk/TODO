@@ -1,0 +1,3 @@
+* 06/03-2001 if snapsize is chosen to 0 no ut.snap and wt.snap is ZERO
+* 09/08-2001 Check that reading of the geophone input file works
+* ADD Rpmspec file.

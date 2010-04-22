@@ -1,0 +1,23 @@
+<CHAPTER id="examples">
+<TITLE>Examples</TITLE>
+<PARA>
+Examples of the use of MPM can be found in \cmd{mpm-&mpm-version/examples/}, or /usr/doc/mpm-&mpm-version;/examples.
+</PARA>
+<PARA>
+Make sure mpm is located in the path.
+</PARA>
+<PARA>
+Be sure to add  &mpm-version;/misc/ to the Matlab path if using the matlab examples.
+</PARA>
+<PARA>
+All examples can be run both as a matlab script and as a shell script. e.g. the first benchmark test can be called from matlab using <FILENAME>bench1.m</>, and from a shell using <FILENAME>bench1.sh</>.
+</PARA>
+
+&mpm-ex-benchmark;
+&mpm-ex-movingbox;
+&mpm-ex-wideangle;
+
+
+
+
+</CHAPTER>

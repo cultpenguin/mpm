@@ -1,0 +1,56 @@
+<!-- $Id: mpm.sgml,v 1.2 2002/08/15 14:49:02 cultpenguin Exp $ -->
+<!-- <!doctype book PUBLIC "-//OASIS//DTD DocBook V4.1//EN" [ -->
+<!-- <!doctype book PUBLIC "-//OASIS//DTD DocBook V3.1//EN" [ -->
+<!doctype book PUBLIC "-//OASIS//DTD DocBook V4.1//EN" [
+<!ENTITY % magic-entities SYSTEM "magic.sgml">
+  %magic-entities;  <!-- This is where we include it -->
+<!ENTITY mpm-date SYSTEM "date.sgml">
+<!ENTITY mpm-version SYSTEM "version.sgml">
+<!ENTITY mpm-manualinfo SYSTEM "manualinfo.sgml">
+<!ENTITY mpm-abstract SYSTEM "abstract.sgml">
+<!ENTITY mpm-install SYSTEM "install.sgml">
+<!ENTITY mpm-runmpm SYSTEM "runmpm.sgml">
+<!ENTITY mpm-examples SYSTEM "examples.sgml">
+
+<!ENTITY mpm-ex-benchmark SYSTEM "ex_benchmark.sgml">
+<!ENTITY mpm-ex-wideangle SYSTEM "ex_wideangle.sgml">
+<!ENTITY mpm-ex-marie SYSTEM "ex_marie.sgml">
+<!ENTITY mpm-ex-movingbox SYSTEM "ex_movingbox.sgml">
+
+<!ENTITY mpmweb "http://mpm.sourceforge.net/">
+<!ENTITY mpm "MPM">
+<!ENTITY matlab "Matlab">
+<!ENTITY imdir "plots">
+<!ENTITY eqdir "equations">
+<!ENTITY align "center"> 
+    <!-- DEF ALIGNMENT FOR IMAGEDATA -->
+<!ENTITY scale "70"> 
+<!ENTITY qc "quality check"> 
+    <!-- Scale to apply to images in PS/PDF format -->
+<!ENTITY scalemore "50"> 
+    <!-- Scale to apply to images in PS/PDF format -->
+<!ENTITY scalemost "40"> 
+    <!-- Scale to apply to images in PS/PDF format -->
+]>
+
+
+
+<book id="index">
+
+&mpm-manualinfo;
+	
+
+<!-- CHAPTERS -->
+
+&mpm-abstract
+&mpm-install;
+&mpm-runmpm;
+&mpm-examples;
+
+
+<!-- &mpm-batchmode; -->
+
+<!-- INDEX -->
+<!-- &mpm-index; -->
+
+</book>
