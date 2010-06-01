@@ -50,7 +50,7 @@ pulsedelay=150;
 write_mpm_par(bignx,bignz,dx,xs,zs,tmax,Vmax,Vmin,'sourcetype',sourcetype,'beginsnap',beginsnap,'dsnap',dsnap,'pulsedelay',pulsedelay,'snapsize',snapsize,'autopad',autopad,'verbose',verbose);
 
 tic;
-unix('../../src/mpm');
+mpm;
 ctime=toc;
 
 disp(['']);

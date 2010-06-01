@@ -1,6 +1,6 @@
 clear all
-path(path,'../../misc');
 
+%% SETUP MODEL
 bignx=500;
 bignz=500;
 
@@ -39,7 +39,8 @@ pulsedelay=150;
 
 write_mpm_par(bignx,bignz,dx,xs,zs,tmax,Vmax,Vmin,'sourcetype',sourcetype,'beginsnap',beginsnap,'dsnap',dsnap,'pulsedelay',pulsedelay);
 
-unix('../../mpm')
+%unix('../../mpm')
+mpm
 
 M=mpmmov('div.snap',bignx-2,bignz-2,1,28,1,.000025);
 movie(M,5,10)
