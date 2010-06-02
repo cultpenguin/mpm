@@ -37,7 +37,6 @@ vp_int=interp1([-10;z_log],[vp(1);vp],z);
 vs_int=interp1([-10;z_log],[vs(1);vs],z);
 rho_int=interp1([-10;z_log],[rho(1);rho],z);
 
-
 %% PLOT WELL LOGS
 figure(1);
 subplot(1,2,1);
