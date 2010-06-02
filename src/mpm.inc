@@ -7,7 +7,7 @@ c
        integer maxbignz 
        integer maxbignx
        integer ibyte    
-       parameter(nxmax=3000,nzmax=3000,ntmax=60001)
+       parameter(nxmax=5000,nzmax=5000,ntmax=60001)
        parameter(nsources=10,nreceivers=9000) 
        parameter(maxbignz=9500)
        parameter(maxbignx=9500)
