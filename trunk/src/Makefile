@@ -25,15 +25,10 @@ FFLAGS = -O3
 #FFLAGS = -Wall
 #FFLAGS = -g
 
+# SUN FORTRAN
+#FC = f77
+#FFLAGS = -autopar -stackvar -O3
 
-#FC = pgf77
-# use 'setenv NCPU 2' to use 2 CPUS
-## ARRAY BOUNDS CHECKING
-#FFLAGS = -C
-#FFLAGS = -O3 -Mvect -Minfo=loop
-#FFLAGS = -O3 -Mvect -Minline
-#FFLAGS = -O3 -Mvect -Minfo=loop -Minline -Mconcur
-#FFLAGS = -O3 -Mvect -Minline -Mconcur
 
 # INTEL COMPILERS
 # -W1 : WARNINGS
