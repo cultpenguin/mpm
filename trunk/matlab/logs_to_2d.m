@@ -33,12 +33,12 @@ end
 dz=dx;
 z=[z_range(1):dz:z_range(2)];
 nz=length(z);
-vp_int=interp1([-10;z_log],[vp(1);vp],z);
-vs_int=interp1([-10;z_log],[vs(1);vs],z);
-rho_int=interp1([-10;z_log],[rho(1);rho],z);
+vp_int=interp1([-10;z_log],[vp(1);vp],z,'nearest','extrap');
+vs_int=interp1([-10;z_log],[vs(1);vs],z,'nearest','extrap');
+rho_int=interp1([-10;z_log],[rho(1);rho],z,'nearest','extrap');
 
 %% PLOT WELL LOGS
-figure(1);
+figure(1);set_paper;
 subplot(1,2,1);
 plot(vp,z_log,'k-',vp_int,z,'r');
 hold on
