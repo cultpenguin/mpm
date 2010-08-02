@@ -26,8 +26,8 @@ FFLAGS = -O3
 #FFLAGS = -g
 
 # SUN FORTRAN
-#FC = f77
-#FFLAGS = -autopar -stackvar -O3
+FC = f90 -f77
+FFLAGS = -fast # -O3 # -fast #-autopar -stackvar
 
 
 # INTEL COMPILERS
