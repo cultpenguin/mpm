@@ -3,7 +3,7 @@
 % CALL :  [vp,vs,den,x,z]=get_mpm_mod(d,datapath);
 %  
 
-function [vp,vs,den,x,z]=get_mpm_mod(d,datapath);
+function [vp,vs,den,x,z,l,l2mu,mu,denu,denw]=get_mpm_mod(d,datapath);
 if nargin==0,
   datapath=pwd;
   d=5;
@@ -55,6 +55,7 @@ end
 %VP
 l2mu=readbin([datapath,'/l2mu.mod'],bignx,bignz,d); 
 denu=readbin([datapath,'/denu.mod'],bignx,bignz,d); 
+denw=readbin([datapath,'/denw.mod'],bignx,bignz,d); 
 vp=sqrt(l2mu./denu);
 
 
