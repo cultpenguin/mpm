@@ -21,13 +21,13 @@
 
 # GNU FORTRAN
 FC = gfortran
-FFLAGS = -O3
+FFLAGS = -O3 -static
 #FFLAGS = -Wall
 #FFLAGS = -g
 
 # SUN FORTRAN
-FC = f90 -f77
-FFLAGS = -fast # -O3 # -fast #-autopar -stackvar
+#FC = f90 -f77
+#FFLAGS = -fast # -O3 # -fast #-autopar -stackvar
 
 
 # INTEL COMPILERS
