@@ -36,12 +36,9 @@ if isempty(dx);dx=min_l/5;end
 stability_ok=1;
 dtmin=0.606*dx./Vmax;
 fmax=Vmin/(5*dx);
-fak=0.606*dx/Vmax;
 if isempty(dt), dt=dtmin; end
 
-
-
-
+%% VERBOSE OUTPUT
 
 if dx<min_l/5,
     dispersion_ok=0;
@@ -54,16 +51,15 @@ else
     end
 end
 
-
-if fak<dt,
+if dtmin<dt,
     stability_ok=0;
     if (verbose_level>-1);
-        disp(['Stability VIOLATED  : dt = ',num2str(1000*dt),'ms < 606*dx/Vmax = ',num2str(1000*fak)])
+        disp(['Stability VIOLATED  : dt = ',num2str(1000*dt),'ms < 606*dx/Vmax = ',num2str(1000*dtmin)])
     end
 else
     stability_ok=0;
     if (verbose_level>0);
-        disp(['Stability ok        : dt = ',num2str(1000*dt),'ms < 606*dx/Vmax = ',num2str(1000*fak)])
+        disp(['Stability ok        : dt = ',num2str(1000*dt),'ms < 606*dx/Vmax = ',num2str(1000*dtmin)])
     end
 end
 
