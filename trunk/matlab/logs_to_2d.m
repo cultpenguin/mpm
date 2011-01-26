@@ -2,28 +2,44 @@
 function [vp_profile,vs_profile,rho_profile,x,z]=logs_to_2d(z_log,vp,vs,rho,z_range,offset,dx,max_freq,doPlot)
 
 if nargin<9
-    doPlot=1;
+    doPlot=0;
 end
 if nargin<8
     max_freq=2.5*50;
 end
 
-compute_dx=0;
-if nargin>6
-    if isempty(dx);
-        compute_dx=1;
-    end
+if nargin==6;
+    x=offset;
+    dx=x(2)-x(1);    
+    nx=length(x);
+    offset=nx*dx;
 end
 
-if nargin<7
-    compute_dx=1;
-end
+compute_dx=0;
+%if length(offset)==1;
+%    % IN THIS CASE OFFSET INPUT IS INTERPRETED AS 'nx'
+%    nx=offset;
+%    dx=1;
+%    offset=nx*dx;
+%    x=[dx:dx:offset];
+%else     
+    if nargin>6
+        if isempty(dx);
+            compute_dx=1;
+        end
+    end    
+    %if nargin<7
+    %    compute_dx=1;
+    %end
+%end
 
 if compute_dx==1;
     min_l=(min(vs(:))/max_freq);
     dx=.99*min_l/5;
     disp(sprintf('setting dx=%5.3f using max frequency of %4.1f  Hz ',dx,max_freq))
 end
+
+
 x=[dx:dx:offset];
 nx=length(x);
 
