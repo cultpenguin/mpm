@@ -10,15 +10,20 @@ geow=[];
 
 if exist('mpm_bin')~=2
     mpm_bin=[fileparts(which('mpm.m')),filesep,'..',filesep,'src',filesep,'mpm'];
+    if ~isunix
+        mpm_bin=[mpm_bin,'.exe'];
+    end
 end
+
+
 if exist(mpm_bin)==0
     disp(sprintf('%s : could not locate MPM binary ''%s''',mfilename,mpm_bin))
 end
-
 if nargin==0
-
     
-    [status]=system(sprintf(['%s'],mpm_bin));
+    disp(sprintf('Running MPM using ''%s''',mpm_bin));
+    pause(.1); % 
+    [status,result]=system(sprintf(['%s'],mpm_bin))
     
     return
 end
