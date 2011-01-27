@@ -23,8 +23,9 @@
 FC = gfortran 
 # FFLAGS = -O3 -static -ftree-vectorize -fprefetch-loop-arrays -funroll-loops -floop-interchange -ftree-loop-distribution -ffast-math -funroll-loops -finline-functions -march=native -fno-signed-zeros -ffinite-math-only -fopenmp
 
-FFLAGS = -O3 -static -ftree-vectorize   -funroll-loops  -ftree-loop-distribution  -ffast-math -funroll-loops -finline-functions -march=native -fno-signed-zeros -ffinite-math-only -fopenmp
-
+FFLAGS = -ftree-vectorize   -funroll-loops -ffast-math -funroll-loops -finline-functions -march=native -fno-signed-zeros -ffinite-math-only -fopenmp
+ 
+#-ftree-loop-distribution  
 
 ##### SUN FORTRAN
 #FC = f90 -f77
