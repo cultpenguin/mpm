@@ -19,13 +19,14 @@
 # REMEMBER to set SETENV NCPUS 2 to use 2 CPUS (PGI)
 #
 
-# GNU FORTRAN
-FC = gfortran
-FFLAGS = -O3 -static
-#FFLAGS = -Wall
-#FFLAGS = -g
+##### GNU FORTRAN (minGW)
+FC = gfortran 
+# FFLAGS = -O3 -static -ftree-vectorize -fprefetch-loop-arrays -funroll-loops -floop-interchange -ftree-loop-distribution -ffast-math -funroll-loops -finline-functions -march=native -fno-signed-zeros -ffinite-math-only -fopenmp
 
-# SUN FORTRAN
+FFLAGS = -O3 -static -ftree-vectorize   -funroll-loops  -ftree-loop-distribution  -ffast-math -funroll-loops -finline-functions -march=native -fno-signed-zeros -ffinite-math-only -fopenmp
+
+
+##### SUN FORTRAN
 #FC = f90 -f77
 #FFLAGS = -fast # -O3 # -fast #-autopar -stackvar
 
