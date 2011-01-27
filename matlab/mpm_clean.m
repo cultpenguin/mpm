@@ -22,6 +22,7 @@ i=i+1;A{i}='ut.autosave';
 i=i+1;A{i}='tauxz.autosave';
 i=i+1;A{i}='time.autosave';
 i=i+1;A{i}='wt.autosave';
+i=i+1;A{i}='source.asc';
 
 i=0;
 i=i+1;B{i}='denu.mod';
