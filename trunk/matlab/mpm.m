@@ -18,6 +18,7 @@ end
 
 if exist(mpm_bin)==0
     disp(sprintf('%s : could not locate MPM binary ''%s''',mfilename,mpm_bin))
+    keyboard
 end
 if nargin==0
     
@@ -79,7 +80,7 @@ write_mpm_par(nx,nz,dx,options.xs,options.zs,options.tmax,Vmax,Vmin,'sourcetype'
     
 try;geou=f77strip('geou.f77');catch;geou=[];end
 try;geow=f77strip('geow.f77');catch;geow=[];end
-
+fclose all;
 %disp(sprintf('%s : %s',mfilename,status))
 
 
