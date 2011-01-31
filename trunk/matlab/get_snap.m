@@ -19,3 +19,4 @@ function snap=get_snap(filename,nx,nz,isnap)
      
      fseek(fid,(isnap-1)*(nx*nz)*4,'bof');
      snap=fread(fid,[nz nx],'float32');
+     fclose(fid);

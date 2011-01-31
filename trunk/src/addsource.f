@@ -68,19 +68,18 @@ c     DEFINE SHOT POSITION IN CURRENT GRID
       if (shotz.lt.(bz1+1)) outofrange=1
       if (shotz.gt.(bz1+nz)) outofrange=1
 
+      if (shotx.lt.(bx1+1)) outofrange=1
+      if (shotx.gt.(bx1+nx))  outofrange=1
+      if (shotz.lt.(bz1+1)) outofrange=1
+      if (shotz.gt.(bz1+nz)) outofrange=1
 
 c     
 c     ONLY INSERT SOURCE IF IN-PLANE
 c     
 
       
-      if (rotation.eq.1) then
-c        CHECK OUT OF RANGE
-         if (shotx.lt.(bx1+1)) outofrange=1
-         if (shotx.gt.(bx1+nx))  outofrange=1
-         if (shotz.lt.(bz1+1)) outofrange=1
-         if (shotz.gt.(bz1+nz)) outofrange=1
-         if (outofrange.eq.0) then
+      if (outofrange.eq.0) then
+         if (rotation.eq.1) then
             ut(shotx+1,shotz)=ut(shotx+1,shotz)+
      1           source(it)*dx*denu(shotx+1,shotz)
             ut(shotx+1,shotz+1)=ut(shotx+1,shotz+1)-
@@ -89,14 +88,7 @@ c        CHECK OUT OF RANGE
      1           source(it)*dx*denw(shotx,shotz)
             wt(shotx+1,shotz)=wt(shotx+1,shotz)+
      1           source(it)*dx*denw(shotx+1,shotz) 
-         endif
-      else
-c        CHECK OUT OF RANGE
-         if (shotx.lt.(bx1+1)) outofrange=1
-         if (shotx.gt.(bx1+nx))  outofrange=1
-         if (shotz.lt.(bz1+1)) outofrange=1
-         if (shotz.gt.(bz1+nz)) outofrange=1
-         if (outofrange.eq.0) then
+         elseif (rotation.eq.0) then
             ut(shotx,shotz)=ut(shotx,shotz)-
      1           source(it)*dx*denu(shotx,shotz)
             ut(shotx+1,shotz)=ut(shotx+1,shotz)+
@@ -105,9 +97,11 @@ c        CHECK OUT OF RANGE
      1           source(it)*dx*denw(shotx,shotz-1)
             wt(shotx,shotz)=wt(shotx,shotz)+
      1           source(it)*dx*denw(shotx,shotz)
-         endif 
+         else
+            wt(shotx,shotz)=wt(shotx,shotz)+
+     1           source(it)*dx*denw(shotx,shotz)
+         endif
       endif
-
       
       if (verbose.gt.2) then 
          PRINT*, ' --- BEGIN ADDSOURCE ---'

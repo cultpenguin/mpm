@@ -41,6 +41,7 @@ c---------------------------------------------------------------
       nnt=int(1./(maxf*dt))
       Tstart=int(pulsedelay-nnt/2)-1
 
+
 c      b=
 c      a=2.*b
 
@@ -49,20 +50,27 @@ c      a=2.*b
          PRINT*, 'SOURCEWL : MPM READING BIG MODEL '
       end if
       if (sourcetype.eq.0) then 
-      if (verbose.gt.0) PRINT*, ' Reading wavelet from ',fsourcewl
+         if (verbose.gt.0) PRINT*, ' Reading wavelet from ',fsourcewl
 c        READ FROM FILE
          call read_source(source,nt)
       else if (sourcetype.eq.1) then
-      if (verbose.gt.0) PRINT*, ' Creating Ricker wavelet'
+         if (verbose.gt.0) PRINT*, ' Creating Ricker wavelet'
          do it = 1,ntmax
             source(it) = 0.
          enddo
-         do it=1,pulsedelay+1
-            t2=((it-1)*dt)**2
-            source(pulsedelay+it)=
+
+         do it=1,2*pulsedelay
+            t2 = ((it-pulsedelay)*dt)*((it-pulsedelay)*dt);
+            source(it)=
      1           (1.-(2*(pi*maxf)**2)*t2)*exp(-((pi*maxf)**2)*t2)
-            source(pulsedelay+2-it)=source(pulsedelay+it)
          enddo
+
+c         do it=1,pulsedelay+1
+c            t2=((it-1)*dt)**2
+c            source(pulsedelay+it)=
+c     1           (1.-(2*(pi*maxf)**2)*t2)*exp(-((pi*maxf)**2)*t2)
+c            source(pulsedelay+2-it)=source(pulsedelay+it)
+c         enddo
 
       else if (sourcetype.eq.2) then
       if (verbose.gt.0) PRINT*, ' Creating Cosinus wavelet'
