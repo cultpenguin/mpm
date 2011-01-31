@@ -21,10 +21,10 @@
 
 ##### GNU FORTRAN (minGW)
 FC = gfortran 
-# FFLAGS = -O3 -static -ftree-vectorize -fprefetch-loop-arrays -funroll-loops -floop-interchange -ftree-loop-distribution -ffast-math -funroll-loops -finline-functions -march=native -fno-signed-zeros -ffinite-math-only -fopenmp
+#FFLAGS = -O3 -static -ftree-vectorize -fprefetch-loop-arrays -funroll-loops -floop-interchange -ftree-loop-distribution -ffast-math -funroll-loops -finline-functions -march=native -fno-signed-zeros -ffinite-math-only -fopenmp
+# -ftree-vectorize   -funroll-loops -ffast-math -funroll-loops -finline-functions -march=native -fno-signed-zeros -ffinite-math-only -fopenmp
+FFLAGS =  -O3 -static -march=native
 
-FFLAGS = -ftree-vectorize   -funroll-loops -ffast-math -funroll-loops -finline-functions -march=native -fno-signed-zeros -ffinite-math-only -fopenmp
- 
 #-ftree-loop-distribution  
 
 ##### SUN FORTRAN
