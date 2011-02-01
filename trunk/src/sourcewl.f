@@ -31,9 +31,12 @@ c     Local variables
 c---------------------------------------------------------------
 
       INTEGER it,Tstart,nnt
-      REAL t2,pi
+      INTEGER normalize_source
+      REAL t2,pi,sourcemax
       CHARACTER fsourcewl*40
       
+      normalize_source=0
+
       fsourcewl='sourcewl.asc'
 
       
@@ -87,21 +90,33 @@ c         enddo
          enddo
          do it=1,ntmax
             source(it)=exp((-((it*dt)-(pulsedelay*dt))**2)/
-     1           ((0.8/maxf)**2))
+     1           ((0.2/maxf)**2))
          enddo
       end if
 
+      sumsource = 0;
       if (sumsource.eq.1) then
-         if (verbose.gt.0) PRINT*, ' INTEGRATING SOURCE PUSLE'
+         if (verbose.gt.-1) PRINT*, ' INTEGRATING SOURCE PUSLE'
 c        INTEGRATING
-         do it=2,ntmax
-           source(it)=source(it-1)+source(it)
+         do it=2,ntmax 
+            source(it)=source(it-1)+source(it)
          enddo
-c        NORMALIZING
-         do it=2,ntmax
-           source(it)=source(it)/source(ntmax)
-        enddo
+c     double integrate
+c         do it=2,ntmax
+c           source(it)=source(it-1)+source(it)
+c         enddo
       end if
+
+
+      if (normalize_source.eq.1) then
+         sourcemax=0;
+         do it=1,ntmax
+            if (abs(source(it)).gt.sourcemax) sourcemax=source(it);
+         enddo
+         do it=1,ntmax
+            source(it)=source(it)/sourcemax;
+         enddo
+      endif
       
       if (verbose.gt.0) then
          PRINT*, 'SOURCEWL : '

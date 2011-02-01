@@ -13,9 +13,10 @@
 %
 % ex 
 %  mpmmov('div.snap',1e-4); movie of div.snap, clipping value of 1e-4
-%
+
 %
 function [M,T]=mpmmov(file,iix,iiz,n1,nsnap,skip,clip,p1,p2)
+
 
 
 noclip=1;
@@ -40,7 +41,7 @@ end
 
 if nargin==2;
  clip=iix;
- [iix,iiz]=get_movie_size
+ [iix,iiz]=get_movie_size;
  [autopad,bignx,bignz,dx]=read_mpm_par('autopad','bignx','bignz','dx');
  [beginsnap,dsnap,dt,tmax]=read_mpm_par('beginsnap','dsnap','dt','tmax');
  n1=1;
@@ -50,6 +51,9 @@ if nargin==2;
  noclip=0;
 end
 
+if ((isempty(iix)|isempty(iiz)))
+ [iix,iiz]=get_movie_size;
+end
 
 if nargin==3,
   n1=1;nsnap=1;skip=1;p=0; 

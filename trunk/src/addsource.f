@@ -1,5 +1,6 @@
       subroutine addsource(dx,nx,nz,buffer,bx1,bz1,bbx1,bbz1,rotation,
-     1     denu,denw,ut,wt,wavex,wavez,dt,xs,zs,source,it,verbose)
+     1     denu,denw,ut,wt,tauxx,tauzz,tauxz,
+     2     wavex,wavez,dt,xs,zs,source,it,verbose)
 
 c*********************************************************
 c xs,zs : ShotPoint in BIG grid
@@ -29,10 +30,13 @@ c     MOVING BOX
       INTEGER wavex(ntmax),wavez(ntmax)
       REAL denu(nxmax,nzmax), denw(nxmax,nzmax)
       REAL ut(nxmax,nzmax), wt(nxmax,nzmax)
+      REAL tauxx(nxmax,nzmax), tauzz(nxmax,nzmax)
+      REAL tauxz(nxmax,nzmax)
 
 c     TIME SAMPLING
       REAL dt
-
+      REAL difft
+      
 c     SOURCE
       INTEGER xs,zs
       REAL source(ntmax)
@@ -88,18 +92,20 @@ c
      1           source(it)*dx*denw(shotx,shotz)
             wt(shotx+1,shotz)=wt(shotx+1,shotz)+
      1           source(it)*dx*denw(shotx+1,shotz) 
+c     REALLY NEED TO BE ADD AS STRESS CHANGES
+c            tauzz(shotx,shotz)=tauzz(shotx,shotz)+source(it)
+c            tauxx(shotx,shotz)=tauxx(shotx,shotz)-source(it)
          elseif (rotation.eq.0) then
-            ut(shotx,shotz)=ut(shotx,shotz)-
-     1           source(it)*dx*denu(shotx,shotz)
-            ut(shotx+1,shotz)=ut(shotx+1,shotz)+
-     1           source(it)*dx*denu(shotx+1,shotz)
-            wt(shotx,shotz-1)=wt(shotx,shotz-1)-
-     1           source(it)*dx*denw(shotx,shotz-1)
-            wt(shotx,shotz)=wt(shotx,shotz)+
-     1           source(it)*dx*denw(shotx,shotz)
-         else
-            wt(shotx,shotz)=wt(shotx,shotz)+
-     1           source(it)*dx*denw(shotx,shotz)
+c            ut(shotx,shotz)=ut(shotx,shotz)-
+c     1           source(it)*dx*denu(shotx,shotz)
+c            ut(shotx+1,shotz)=ut(shotx+1,shotz)+
+c     1           source(it)*dx*denu(shotx+1,shotz)
+c            wt(shotx,shotz-1)=wt(shotx,shotz-1)-
+c     1           source(it)*dx*denw(shotx,shotz-1)
+c            wt(shotx,shotz)=wt(shotx,shotz)+
+c     1           source(it)*dx*denw(shotx,shotz)
+            tauzz(shotx,shotz)=tauzz(shotx,shotz)-source(it)
+            tauxx(shotx,shotz)=tauxx(shotx,shotz)-source(it)
          endif
       endif
       
