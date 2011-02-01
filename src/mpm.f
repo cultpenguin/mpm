@@ -325,7 +325,8 @@ c     VELOCITY UPDATE 2nd order
 
 c     ADD SOURCE
          call addsource(dx,nx,nz,buffer,bx1,bz1,bbx1,bbz1,rotation,
-     1        denu,denw,ut,wt,wavex,wavez,dt,xs,zs,source,it,verbose)
+     1        denu,denw,ut,wt,tauxx,tauzz,tauxz,
+     2        wavex,wavez,dt,xs,zs,source,it,verbose)
          
 c     c ATTENUTATE - CERJAN, FRESNEL
          if (it.gt.1100) edgefactord=0.97
