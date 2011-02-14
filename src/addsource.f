@@ -104,8 +104,8 @@ c            wt(shotx,shotz-1)=wt(shotx,shotz-1)-
 c     1           source(it)*dx*denw(shotx,shotz-1)
 c            wt(shotx,shotz)=wt(shotx,shotz)+
 c     1           source(it)*dx*denw(shotx,shotz)
-            tauzz(shotx,shotz)=tauzz(shotx,shotz)-source(it)
-            tauxx(shotx,shotz)=tauxx(shotx,shotz)-source(it)
+            tauzz(shotx,shotz)=tauzz(shotx,shotz)+source(it)
+            tauxx(shotx,shotz)=tauxx(shotx,shotz)+source(it)
          endif
       endif
       

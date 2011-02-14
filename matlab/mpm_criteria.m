@@ -40,7 +40,7 @@ if isempty(dt), dt=dtmin; end
 
 %% VERBOSE OUTPUT
 
-if dx<min_l/5,
+if dx>min_l/5,
     dispersion_ok=0;
     if (verbose_level>-1);
         disp(['Dispersion VIOLATED : dx = ',num2str(dx),' < lambda_m/5 = ',num2str(min_l/5)])
