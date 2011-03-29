@@ -52,9 +52,9 @@ end
 dz=dx;
 z=[z_range(1):dz:z_range(2)];
 nz=length(z);
-vp_int=interp1([-10;z_log],[vp(1);vp],z,'nearest','extrap');
-vs_int=interp1([-10;z_log],[vs(1);vs],z,'nearest','extrap');
-rho_int=interp1([-10;z_log],[rho(1);rho],z,'nearest','extrap');
+vp_int=interp1([-10;z_log(:)],[vp(1);vp(:)],z,'nearest','extrap');
+vs_int=interp1([-10;z_log(:)],[vs(1);vs(:)],z,'nearest','extrap');
+rho_int=interp1([-10;z_log(:)],[rho(1);rho(:)],z,'nearest','extrap');
 
 %% PLOT WELL LOGS
 if doPlot==1;
